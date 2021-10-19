@@ -1,0 +1,24 @@
+# FROM ARM/64 RUST
+FROM  rust:1.54.0@sha256:9407d988d68a8c92340024f34ada521ff77cf8ca5772e00996e4914274d72374
+
+# 2. Copy the files in your machine to the Docker image
+COPY ./ ./
+
+RUN apt-get update
+
+RUN apt-get install musl-tools -y
+
+RUN apt-get -y install pkg-config libssl-dev
+
+RUN cargo build --release --target aarch64-unknown-linux-gnu
+RUN cp target/aarch64-unknown-linux-gnu/release/rust-aws-lambda ./app
+
+
+RUN apt-get update
+RUN  apt install zip
+
+RUN chmod +x bootstrap
+RUN chmod +x app
+RUN #chmod +x ./app
+RUN zip -j function.zip bootstrap app
+

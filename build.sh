@@ -1,12 +1,12 @@
 #!/bin/sh
 set -e
 
-#build Rust
+build Rust
 cd ./rust-aws-lambda
 sh build.sh
 cd ./../
 ##
-##build Go
+#build Go
 cd ./go-lambda
 sh build.sh
 cd ./../
